@@ -11,8 +11,7 @@ import java.util.List;
 @Service
 public class FileService {
     public String[] loadFileLines(String filePath) {
-        try {
-            BufferedReader in = new BufferedReader(new FileReader(filePath));
+        try (BufferedReader in = new BufferedReader(new FileReader(filePath))) {
             String str;
             List<String> list = new ArrayList<String>();
             while ((str = in.readLine()) != null) {

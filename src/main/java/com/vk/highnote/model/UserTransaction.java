@@ -1,0 +1,27 @@
+package com.vk.highnote.model;
+
+import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
+
+import java.sql.Timestamp;
+
+@Builder
+@Data
+@Entity
+@Table(name = "usertransactions")
+public class UserTransaction {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long transactionId;
+    private Long userId;
+    private String vendor;
+    private String product;
+    private Float unitPrice;
+    private Float totalPrice;
+    private Float quantity;
+    private Timestamp invoiceDate;
+    @Value("#{T(java.time.Instant).now()}")
+    private Timestamp creationDate;
+}

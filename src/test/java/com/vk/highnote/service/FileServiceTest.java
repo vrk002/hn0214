@@ -1,4 +1,4 @@
-package com.vk.highnote.file;
+package com.vk.highnote.service;
 
 import org.junit.jupiter.api.Test;
 

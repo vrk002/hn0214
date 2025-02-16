@@ -55,7 +55,7 @@ public class TransactionController {
     @Operation(summary = "Process a file and persist the transactions")
     @ApiResponse(responseCode = "200", description = "Processed the file and persisted the transactions")
     @PostMapping("/{userId}")   
-    public int processByFile(@PathVariable("userId") Long userId, @RequestParam String s3FilePath) {
+    public int processByFile(@PathVariable("userId") Long userId, @RequestParam("s3FilePath") String s3FilePath) {
         return transactionService.processTransactionFile(s3FilePath, userId);
     }
 }

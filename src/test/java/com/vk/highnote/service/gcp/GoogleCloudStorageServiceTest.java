@@ -23,14 +23,14 @@ public class GoogleCloudStorageServiceTest {
     @Test
     public void processLargeCsvFile() throws IOException {
         String fileName = "transactions.csv";
-        List<UserTransaction> transactionList = googleCloudStorageService.processLargeCsvFile(fileName);
+        List<UserTransaction> transactionList = googleCloudStorageService.processLargeCsvFile(fileName, 22L);
         assertEquals(100, transactionList.size());
     }
 
     @Test
     public void processCsvFile() throws IOException {
         String fileName = "transactions.csv";
-        List<UserTransaction> transactionList = googleCloudStorageService.processCsvFile(fileName);
+        List<UserTransaction> transactionList = googleCloudStorageService.processCsvFile(fileName, 22L);
         assertEquals(100, transactionList.size());
     }
 }

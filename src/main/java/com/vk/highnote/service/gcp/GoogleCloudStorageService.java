@@ -40,7 +40,7 @@ public class GoogleCloudStorageService {
      * @return a list of user transactions
      * @throws IOException
      */
-    public List<UserTransaction> processLargeCsvFile(String fileName) throws IOException {
+    public List<UserTransaction> processLargeCsvFile(String fileName, long userId) throws IOException {
         Blob blob = storage.get(BlobId.of(BUCKET_NAME, fileName));
 
         if (blob == null) {
@@ -54,7 +54,7 @@ public class GoogleCloudStorageService {
 
             for (CSVRecord record : csvParser) {
                 try {
-                    resultList.add(processRecord(record));
+                    resultList.add(processRecord(record, userId));
                 } catch (Exception e) {
                     System.out.println("Failed parsing record" + e);
                 }
@@ -69,8 +69,9 @@ public class GoogleCloudStorageService {
      *               Columns: "vendor", "product", "unitPrice", "totalPrice", "quantity", "invoiceDate"
      * @return UserTransaction
      */
-    public UserTransaction processRecord(CSVRecord record) {
+    public UserTransaction processRecord(CSVRecord record, long userId) {
         return UserTransaction.builder()
+                .userId(userId)
                 .vendor(record.get(0))
                 .product(record.get(1))
                 .unitPrice(Float.valueOf(record.get(2)))
@@ -86,7 +87,7 @@ public class GoogleCloudStorageService {
      * @return List of UserTransactions
      * @throws IOException
      */
-    public List<UserTransaction> processCsvFile(String fileName) throws IOException {
+    public List<UserTransaction> processCsvFile(String fileName, long userId) throws IOException {
         Blob blob = storage.get(BlobId.of(BUCKET_NAME, fileName));
 
         if (blob == null) {
@@ -101,7 +102,7 @@ public class GoogleCloudStorageService {
             CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT)) {
             for (CSVRecord record : csvParser) {
                 try {
-                    transactions.add(processRecord(record));
+                    transactions.add(processRecord(record, userId));
                 } catch (Exception e) {
                     System.out.println("Failed parsing record" + e);
                 }

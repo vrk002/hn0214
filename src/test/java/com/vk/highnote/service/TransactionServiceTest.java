@@ -68,8 +68,7 @@ public class TransactionServiceTest {
 
     @Test
     public void processTransactionFile() {
-        transactionService.process("src/main/resources/static/input_vk.txt", 2L);
-        List<UserTransaction> userTransactionList = transactionService.findTransactionsByUser(2L);
-        assertEquals(2, userTransactionList.size());
+        List<UserTransaction> transactions = transactionService.process("transactions.csv", 2L);
+        assertEquals(100, transactions.size());
     }
 }

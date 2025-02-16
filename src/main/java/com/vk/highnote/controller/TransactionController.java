@@ -2,9 +2,9 @@ package com.vk.highnote.controller;
 
 import com.vk.highnote.service.TransactionService;
 import com.vk.highnote.model.UserTransaction;
-import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,7 +43,7 @@ public class TransactionController {
     @Operation(summary = "Get transactions by user ID")
     @ApiResponse(responseCode = "200", description = "Found transactions by user ID")
     @GetMapping("/{userId}")
-    public List<UserTransaction> findTransactionsByUser(@PathParam("userId") Long userId) {
+    public List<UserTransaction> findTransactionsByUser(@PathVariable("userId") Long userId) {
         return transactionService.findTransactionsByUser(userId);
     }
 
@@ -55,7 +55,7 @@ public class TransactionController {
     @Operation(summary = "Process a file and persist the transactions")
     @ApiResponse(responseCode = "200", description = "Processed the file and persisted the transactions")
     @PostMapping("/{userId}")   
-    public int processByFile(@PathParam("userId") Long userId, @RequestParam String s3FilePath) {
+    public int processByFile(@PathVariable("userId") Long userId, @RequestParam String s3FilePath) {
         return transactionService.processTransactionFile(s3FilePath, userId);
     }
 }

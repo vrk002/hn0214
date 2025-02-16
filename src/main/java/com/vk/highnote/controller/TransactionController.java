@@ -10,11 +10,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/transactions")
+@Tag(name = "Transaction Controller", description = "APIs for managing transactions")
 public class TransactionController {
 
     private final TransactionService transactionService;
@@ -23,6 +28,8 @@ public class TransactionController {
      * find all transactions
      * @return List of Transactions
      */
+    @Operation(summary = "Get all transactions")
+    @ApiResponse(responseCode = "200", description = "Found all transactions")
     @GetMapping
     public List<UserTransaction> findAllTransactions() {
         return transactionService.findAllTransactions();
@@ -33,6 +40,8 @@ public class TransactionController {
      * @param userId userId
      * @return list of transactions
      */
+    @Operation(summary = "Get transactions by user ID")
+    @ApiResponse(responseCode = "200", description = "Found transactions by user ID")
     @GetMapping("/{userId}")
     public List<UserTransaction> findTransactionsByUser(@PathParam("userId") Long userId) {
         return transactionService.findTransactionsByUser(userId);
@@ -43,7 +52,9 @@ public class TransactionController {
      * @param s3FilePath filePath s3 file path
      * @param userId userId to associate the transactions with
      */
-    @PostMapping("/{userId}")
+    @Operation(summary = "Process a file and persist the transactions")
+    @ApiResponse(responseCode = "200", description = "Processed the file and persisted the transactions")
+    @PostMapping("/{userId}")   
     public int processByFile(@PathParam("userId") Long userId, @RequestParam String s3FilePath) {
         return transactionService.processTransactionFile(s3FilePath, userId);
     }

@@ -38,10 +38,11 @@ public class TransactionController {
 
     /**
      * process a file and persist the transactions
-     * @param path filePath s3 file path
+     * @param s3FilePath filePath s3 file path
+     * @param userId userId to associate the transactions with
      */
     @PostMapping("/{userId}")
-    public void processByFile(@RequestParam String path) {
-
+    public int processByFile(@PathParam("userId") Long userId, @RequestParam String s3FilePath) {
+        return transactionService.processTransactionFile(s3FilePath, userId);
     }
 }

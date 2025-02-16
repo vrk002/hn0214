@@ -25,10 +25,11 @@ public class TransactionService {
         return userTransactionRepository.findByUserId(userId);
     }
 
-    public void processTransactionFile(String fileName, Long userId) {
+    public int processTransactionFile(String fileName, Long userId) {
         List<UserTransaction> transactions = process(fileName, userId);
         persistTransactions(transactions);
         System.out.println("completed processing file: " + fileName + ", number of transactions created: " + transactions.size());
+        return transactions.size();
     }
 
     @Transactional

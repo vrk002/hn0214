@@ -2,6 +2,7 @@ package com.vk.highnote.service;
 
 import com.vk.highnote.model.UserTransaction;
 import com.vk.highnote.repository.UserTransactionRepository;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
+@Transactional
 public class TransactionServiceTest {
 
     @Autowired
@@ -56,9 +58,18 @@ public class TransactionServiceTest {
     }
 
     @Test
-    public void process() {
-//        transactionService.process("src/main/resources/static/input_vk.txt");
-//        List<UserTransaction> userTransactionList = userTransactionRepository.findAll();
-//        assertEquals(2, userTransactionList.size());
+    public void findTransactionsByUser() {
+        List<UserTransaction> transactions = transactionService.findTransactionsByUser(2L);
+        assertEquals(2, transactions.size());
+
+        transactions = transactionService.findTransactionsByUser(22L);
+        assertEquals(0, transactions.size());
+    }
+
+    @Test
+    public void processTransactionFile() {
+        transactionService.process("src/main/resources/static/input_vk.txt", 2L);
+        List<UserTransaction> userTransactionList = transactionService.findTransactionsByUser(2L);
+        assertEquals(2, userTransactionList.size());
     }
 }
